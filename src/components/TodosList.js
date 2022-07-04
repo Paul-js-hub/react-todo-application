@@ -2,11 +2,16 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import TodoItem from './TodoItem';
 
-const TodosList = ({ todos }) => (
+const TodosList = ({ todos, handleChange, handleDeleteTodo }) => (
   <div>
     <ul>
       {todos.map((todo) => (
-        <TodoItem key={todo.id} todo={todo} />
+        <TodoItem
+          key={todo.id}
+          todo={todo}
+          handleChange={handleChange}
+          handleDeleteTodo={handleDeleteTodo}
+        />
       ))}
     </ul>
   </div>
@@ -14,6 +19,8 @@ const TodosList = ({ todos }) => (
 
 TodosList.defaultProps = {
   todos: [],
+  handleChange: PropTypes.func,
+  handleDeleteTodo: PropTypes.func,
 };
 
 TodosList.propTypes = {
@@ -22,6 +29,8 @@ TodosList.propTypes = {
       todo: PropTypes.string,
     }),
   ),
+  handleChange: PropTypes.func,
+  handleDeleteTodo: PropTypes.func,
 };
 
 export default TodosList;

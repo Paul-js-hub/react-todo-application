@@ -1,5 +1,7 @@
 import React, { Component } from 'react';
+import { v4 as uuidv4 } from 'uuid';
 import TodosList from './TodosList';
+import InputTodo from './InputTodo';
 
 export default class TodoContainer extends Component {
   constructor(props) {
@@ -7,17 +9,17 @@ export default class TodoContainer extends Component {
     this.state = {
       todos: [
         {
-          id: 1,
+          id: uuidv4(),
           title: 'Setup development environment',
           completed: true,
         },
         {
-          id: 2,
+          id: uuidv4(),
           title: 'Develop website and add content',
           completed: false,
         },
         {
-          id: 3,
+          id: uuidv4(),
           title: 'Deploy to live server',
           completed: false,
         },
@@ -25,11 +27,53 @@ export default class TodoContainer extends Component {
     };
   }
 
+  handleChange = (id) => {
+    this.setState((prevState) => ({
+      todos: prevState.todos.map((todo) => {
+        if (todo.id === id) {
+          return {
+            ...todo,
+            completed: !todo.completed,
+          };
+        }
+        return todo;
+      }),
+    }));
+  }
+
+  handleDeleteTodo = (id) => {
+    const { todos } = this.state;
+    this.setState({
+      todos: [
+        ...todos.filter((todo) => todo.id !== id),
+      ],
+    });
+  }
+
+  handleAddTodo = (title) => {
+    const { todos } = this.state;
+    const newTodo = {
+      id: uuidv4(),
+      title,
+      completed: false,
+    };
+    this.setState({
+      todos: [...todos, newTodo],
+    });
+  }
+
   render() {
     const { todos } = this.state;
     return (
       <div>
-        <TodosList todos={todos} />
+        <InputTodo
+          handleAddTodo={this.handleAddTodo}
+        />
+        <TodosList
+          todos={todos}
+          handleChange={this.handleChange}
+          handleDeleteTodo={this.handleDeleteTodo}
+        />
       </div>
     );
   }
