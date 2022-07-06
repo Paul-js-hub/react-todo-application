@@ -4,7 +4,7 @@ import TodoItem from './TodoItem';
 
 const TodosList = ({ todos, handleChange, handleDeleteTodo }) => (
   <div>
-    <ul>
+    <ul className="list-container">
       {todos.map((todo) => (
         <TodoItem
           key={todo.id}
